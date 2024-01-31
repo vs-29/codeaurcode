@@ -1,13 +1,15 @@
-import express from "express"
+import connectDB from './db/server.js'
+import app from './app.js'
 
-const app=express();
 
-app.get('/',(req,res)=>{
-    res.send("server is ready");
-})
-
-const port=process.env.PORT||3000;
-
-app.listen(port,()=>{
-    console.log(`server ready on port http://localhost:${port}`)
-})
+connectDB().then(
+    ()=>{
+        app.listen(process.env.PORT||3000,()=>{
+            console.log(`App listening on port http://localhost:${process.env.PORT}`)
+        })
+    }
+).catch(
+    (error)=>{
+        console.log(`MongoDb connection failed`,error);
+    }
+)
